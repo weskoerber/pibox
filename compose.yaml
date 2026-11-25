@@ -1,0 +1,18 @@
+networks:
+  llm:
+
+services:
+  llama.cpp-server:
+    extends:
+      file: ./docker/llama.cpp/compose-common.yaml
+      service: llama.cpp
+    command: llama serve -m /var/lib/models/${MODEL}
+    environment:
+      LLAMA_ARG_HOST: ${LLAMA_SERVER_HOST:-127.0.0.1}
+      LLAMA_ARG_PORT: ${LLAMA_SERVER_PORT:-9931}
+      LLAMA_API_KEY: ${LLAMA_SERVER_API_KEY:-}
+
+  pi:
+    build: ./docker/pi/
+    networks: [ llm ]
+    command: pi

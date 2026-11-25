@@ -1,0 +1,9 @@
+services:
+  llama.cpp:
+    build: .
+    devices:
+      - /dev/dri/:/dev/dri/
+      - /dev/kfd:/dev/kfd
+    networks: [ llm ]
+    volumes:
+      - ${MODELS_DIR?:error}/${MODEL:?error}:/var/lib/models/${MODEL}:ro
